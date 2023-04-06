@@ -1,6 +1,6 @@
 import "src/components/Navbar/navbar.scss";
 import { NavLink, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export const Navbar = () => {
   const [active, setActive] = useState(false);
@@ -8,21 +8,29 @@ export const Navbar = () => {
 
   const { pathname } = useLocation();
 
-  const isActive = () => {
-    window.scrollY > 0 ? setActive(true) : setActive(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", isActive);
-
-    return () => window.removeEventListener("scroll", isActive);
-  }, []);
-
   const currentUser = {
     id: 1,
     username: "NiceMan",
     isSeller: true,
   };
+
+  useEffect(() => {
+    const anchor = document.getElementById("anchor");
+    const observer = new IntersectionObserver(([entry]) => {
+      setActive(!entry.isIntersecting);
+    });
+
+    if (anchor) {
+      observer.observe(anchor);
+    }
+
+    return () => {
+      if (anchor) {
+        observer.unobserve(anchor);
+      }
+    };
+  }, []);
+
   return (
     <div className={active || pathname !== "/" ? "navbar active" : "navbar"}>
       <div className="container">
@@ -66,42 +74,41 @@ export const Navbar = () => {
           )}
         </div>
       </div>
-      {active ||
-        (pathname !== "/" && (
-          <>
-            <hr />
-            <div className="menu">
-              <NavLink className="menuLink" to="/">
-                Graphics & Design
-              </NavLink>
-              <NavLink className="menuLink" to="/">
-                Video & Animation
-              </NavLink>
-              <NavLink className="menuLink" to="/">
-                Writing & Translation
-              </NavLink>
-              <NavLink className="menuLink" to="/">
-                AI Services
-              </NavLink>
-              <NavLink className="menuLink" to="/">
-                Digital Marketing
-              </NavLink>
-              <NavLink className="menuLink" to="/">
-                Music & Audio
-              </NavLink>
-              <NavLink className="menuLink" to="/">
-                Programming & Tech
-              </NavLink>
-              <NavLink className="menuLink" to="/">
-                Business
-              </NavLink>
-              <NavLink className="menuLink" to="/">
-                Lifestyle
-              </NavLink>
-            </div>
-            <hr />
-          </>
-        ))}
+      {(active || pathname !== "/") && (
+        <>
+          <hr />
+          <div className="menu">
+            <NavLink className="menuLink" to="/">
+              Graphics & Design
+            </NavLink>
+            <NavLink className="menuLink" to="/">
+              Video & Animation
+            </NavLink>
+            <NavLink className="menuLink" to="/">
+              Writing & Translation
+            </NavLink>
+            <NavLink className="menuLink" to="/">
+              AI Services
+            </NavLink>
+            <NavLink className="menuLink" to="/">
+              Digital Marketing
+            </NavLink>
+            <NavLink className="menuLink" to="/">
+              Music & Audio
+            </NavLink>
+            <NavLink className="menuLink" to="/">
+              Programming & Tech
+            </NavLink>
+            <NavLink className="menuLink" to="/">
+              Business
+            </NavLink>
+            <NavLink className="menuLink" to="/">
+              Lifestyle
+            </NavLink>
+          </div>
+          <hr />
+        </>
+      )}
     </div>
   );
 };

@@ -16,6 +16,7 @@ export const App = () => {
   const Layout = () => {
     return (
       <div className="app">
+        <span id="anchor"></span>
         <Navbar />
         <Outlet />
         <Footer />
