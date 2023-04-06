@@ -1,4 +1,4 @@
-import "./navbar.scss";
+import "src/components/Navbar/navbar.scss";
 import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 

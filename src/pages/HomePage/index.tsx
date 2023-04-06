@@ -1,3 +1,11 @@
+import { Featured } from "src/components/Featured";
+import { TrustedBy } from "src/components/TrustedBy";
+
 export const HomePage = () => {
-  return <div>HomePage</div>;
+  return (
+    <div>
+      <Featured />
+      <TrustedBy />
+    </div>
+  );
 };
