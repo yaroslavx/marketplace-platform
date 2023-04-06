@@ -1,10 +1,12 @@
 import "./navbar.scss";
-import { Link } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export const Navbar = () => {
   const [active, setActive] = useState(false);
   const [menu, setMenu] = useState(false);
+
+  const { pathname } = useLocation();
 
   const isActive = () => {
     window.scrollY > 0 ? setActive(true) : setActive(false);
@@ -22,12 +24,12 @@ export const Navbar = () => {
     isSeller: true,
   };
   return (
-    <div className={active ? "navbar active" : "navbar"}>
+    <div className={active || pathname !== "/" ? "navbar active" : "navbar"}>
       <div className="container">
         <div className="logo">
-          {/*<Link to="/">*/}
-          <span className="text">MarketPlace</span>
-          {/*</Link>*/}
+          <Navlink to="/">
+            <span className="text">MarketPlace</span>
+          </Navlink>
           <span className="dot">.</span>
         </div>
         <div className="links">
@@ -44,35 +46,62 @@ export const Navbar = () => {
                 src="https://images.pexels.com/photos/15636474/pexels-photo-15636474.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
                 alt=""
               />
-              <span onClick={() => setMenu(() => !open)}>
+              <span onClick={() => setMenu(() => !menu)}>
                 {currentUser?.username}
               </span>
               {menu && (
                 <div className="options">
                   {currentUser?.isSeller && (
                     <>
-                      <span>Gigs</span>
-                      <span>Add new Gig</span>
+                      <NavLink to="/gigs">Gigs</NavLink>
+                      <NavLink to="/add">Add new Gig</NavLink>
                     </>
                   )}
-                  <span>Orders</span>
-                  <span>Messages</span>
-                  <span>Log Out</span>
+                  <NavLink to="/orders">Orders</NavLink>
+                  <NavLink to="/messages">Messages</NavLink>
+                  <NavLink to="/messages/:id">Log Out</NavLink>
                 </div>
               )}
             </div>
           )}
         </div>
       </div>
-      {active && (
-        <>
-          <hr />
-          <div className="menu">
-            <span>Test</span>
-            <span>Test1</span>
-          </div>
-        </>
-      )}
+      {active ||
+        (pathname !== "/" && (
+          <>
+            <hr />
+            <div className="menu">
+              <NavLink className="menuLink" to="/">
+                Graphics & Design
+              </NavLink>
+              <NavLink className="menuLink" to="/">
+                Video & Animation
+              </NavLink>
+              <NavLink className="menuLink" to="/">
+                Writing & Translation
+              </NavLink>
+              <NavLink className="menuLink" to="/">
+                AI Services
+              </NavLink>
+              <NavLink className="menuLink" to="/">
+                Digital Marketing
+              </NavLink>
+              <NavLink className="menuLink" to="/">
+                Music & Audio
+              </NavLink>
+              <NavLink className="menuLink" to="/">
+                Programming & Tech
+              </NavLink>
+              <NavLink className="menuLink" to="/">
+                Business
+              </NavLink>
+              <NavLink className="menuLink" to="/">
+                Lifestyle
+              </NavLink>
+            </div>
+            <hr />
+          </>
+        ))}
     </div>
   );
 };
