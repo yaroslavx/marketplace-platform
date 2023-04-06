@@ -27,9 +27,9 @@ export const Navbar = () => {
     <div className={active || pathname !== "/" ? "navbar active" : "navbar"}>
       <div className="container">
         <div className="logo">
-          <Navlink to="/">
+          <NavLink to="/">
             <span className="text">MarketPlace</span>
-          </Navlink>
+          </NavLink>
           <span className="dot">.</span>
         </div>
         <div className="links">
