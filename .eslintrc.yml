@@ -13,4 +13,7 @@ parserOptions:
 plugins:
   - react
   - '@typescript-eslint'
-rules: {}
+rules: {
+         no-unused-vars: warn,
+         react/prop-types: off
+}
